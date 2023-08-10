@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Сделать заказ</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+</head>
+<body>
+<header th:insert="/homepage.html :: header"></header>
+
+<br>
+<br>
+<br>
+<!--<select name="pillowType">-->
+<!--    <option th:each="pillowType : ${pillowTypes}" th:text="${pillowType}"></option>-->
+<!--</select>-->
+<div class="mx-auto" style="width: 2800px;">
+    <div class="container">
+        <div class="col-4">
+            <form method="post" th:action="@{/order/create}" th:object="${newOrder}">
+                <div class="mb-3">
+                    <label for="InputWigwamSize" class="form-label">Выберите размер вигвама</label>
+                    <select th:field="*{wigwamSize}" class="form-control" id="InputWigwamSize"
+                            aria-describedby="wigwamSizeHelp">
+                        <option th:each="size : ${sizes}" th:text="${size.getDisplayValue}"
+                                th:value="${size.getDisplayValue}"></option>
+                    </select>
+                    <div id="wigwamSizeHelp" class="form-text">Размер в сантиментах</div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="InputWigwamColor" class="form-label">Выберите цвет вигвама</label>
+                    <select th:field="*{wigwamColor}" class="form-control" id="InputWigwamColor"
+                            aria-describedby="wigwamColorHelp">
+                        <option th:each="color : ${colors}" th:text="${color.getName}"
+                                th:value="${color.getName}"></option>
+                    </select>
+                    <div id="wigwamColorHelp" class="form-text">Доступные расцветки</div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="InputWindowsCount" class="form-label">Выберите количество окон</label>
+                    <select th:field="*{windowsCount}" class="form-control" id="InputWindowsCount"
+                            aria-describedby="windowsCountHelp">
+                        <option th:each="window : ${windows}" th:text="${window.getDisplayValue}"
+                                th:value="${window.getDisplayValue}"></option>
+                    </select>
+                    <!--                    <div id="wigwamColorHelp" class="form-text">Доступные расцветки</div>-->
+                </div>
+
+                <div class="mb-3">
+                    <label for="InputBottomType" class="form-label">Выберите тип коврика</label>
+                    <select th:field="*{bottomType}" class="form-control" id="InputBottomType"
+                            aria-describedby="bottomTypeHelp">
+                        <option th:each="bottom : ${bottoms}" th:text="${bottom.getDisplayValue}"
+                                th:value="${bottom.getDisplayValue}"></option>
+                    </select>
+                    <div id="bottomTypeHelp" class="form-text">Выберите подходящий тип</div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="InputBottomColor" class="form-label">Выберите цвет коврика</label>
+                    <select th:field="*{bottomColor}" class="form-control" id="InputBottomColor"
+                            aria-describedby="bottomColorHelp">
+                        <option th:each="color : ${colors}" th:text="${color.getName}"
+                                th:value="${color.getName}"></option>
+                    </select>
+                    <div id="bottomColorHelp" class="form-text">Доступные расцветки</div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="InputPillowType" class="form-label">Выберите тип подушки</label>
+                    <select th:field="*{pillowType}" class="form-control" id="InputPillowType"
+                            aria-describedby="pillowTypeHelp">
+                        <option th:each="pillow : ${pillows}" th:text="${pillow.getDisplayValue}"
+                                th:value="${pillow.getDisplayValue}"></option>
+                    </select>
+                    <div id="pillowTypeHelp" class="form-text">Выберите форму</div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="InputPillowColor" class="form-label">Выберите цвет подушки</label>
+                    <select th:field="*{pillowColor}" class="form-control" id="InputPillowColor"
+                            aria-describedby="pillowColorHelp">
+                        <option th:each="color : ${colors}" th:text="${color.getName}"
+                                th:value="${color.getName}"></option>
+                    </select>
+                    <div id="pillowColorHelp" class="form-text">Доступные расцветки</div>
+                </div>
+                <button type="submit" class="btn btn-primary">Регистрация</button>
+            </form>
+        </div>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+        crossorigin="anonymous"></script>
+</body>
+</html>
