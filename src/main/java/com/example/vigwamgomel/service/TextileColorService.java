@@ -1,10 +1,13 @@
 package com.example.vigwamgomel.service;
 
+import com.example.vigwamgomel.DTO.TextileColorDTO;
 import com.example.vigwamgomel.entity.TextileColor;
+import com.example.vigwamgomel.mapper.TextileColorMapper;
 import com.example.vigwamgomel.repository.TextileColorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,8 +16,9 @@ public class TextileColorService {
     @Autowired
     TextileColorRepository repository;
 
-    public void save(TextileColor textileColor) {
-        repository.save(textileColor);
+    public void save(TextileColorDTO textileColorDTO) throws IOException {
+        TextileColor color = TextileColorMapper.DTOtoEntity(textileColorDTO);
+        repository.save(color);
     }
 
     public Optional <TextileColor> findById(long id) {

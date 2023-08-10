@@ -8,9 +8,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(uniqueConstraints={
-        @UniqueConstraint(columnNames = {"pillow_Type", "color_id"})
-})
 public class Pillow {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
