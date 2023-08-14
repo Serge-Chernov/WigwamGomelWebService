@@ -2,8 +2,6 @@ package com.example.vigwamgomel.DTO;
 
 import com.example.vigwamgomel.entity.User;
 import com.example.vigwamgomel.enums.Size;
-import jakarta.servlet.http.HttpSession;
-import org.hibernate.Session;
 
 public class OrderDTO {
     private User user;

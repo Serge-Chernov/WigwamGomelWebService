@@ -3,10 +3,15 @@ package com.example.vigwamgomel.mapper;
 import com.example.vigwamgomel.DTO.OrderDTO;
 import com.example.vigwamgomel.DTO.UserDTO;
 import com.example.vigwamgomel.entity.*;
+import com.example.vigwamgomel.enums.OrderStatus;
 import com.sun.jdi.IntegerValue;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
+
 public class OrderMapper {
-    public static Order orderDTOtoOrder(OrderDTO orderDTO){
+    public static Order orderDTOtoOrder(OrderDTO orderDTO) {
         Order order = new Order();
 
         Wigwam wigwam = new Wigwam();
@@ -39,6 +44,12 @@ public class OrderMapper {
 
         pillow.setColor(pillowColor);
         order.setPillow(pillow);
+
+        String date = LocalDateTime.now().format(DateTimeFormatter.ofPattern("d.MM.uuuu HH:mm"));
+
+        order.setDate(date);
+
+        order.setStatus(OrderStatus.PROCESSED.getDisplayValue());
         return order;
     }
 }

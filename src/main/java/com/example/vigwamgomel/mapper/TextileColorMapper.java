@@ -10,6 +10,7 @@ public class TextileColorMapper {
         TextileColor entity = new TextileColor();
         entity.setName(dto.getName());
         entity.setSample(dto.getSample().getBytes());
+        entity.setPath(dto.getPath());
         return entity;
     }
 }

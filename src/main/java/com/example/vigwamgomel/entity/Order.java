@@ -1,10 +1,8 @@
 package com.example.vigwamgomel.entity;
 
-import jakarta.persistence.*;
-
+import javax.persistence.*;
 import java.math.BigDecimal;
-import java.util.HashSet;
-import java.util.Set;
+
 
 @Entity
 @Table(name = "orders")
@@ -30,10 +28,11 @@ public class Order {
     private Pillow pillow;
     private BigDecimal price;
 
+    private String date;
     public Order() {
     }
 
-    public Order(long id, User user, String status, Wigwam wigwam, WigwamBottom wigwamBottom, Pillow pillow, BigDecimal price) {
+    public Order(long id, User user, String status, Wigwam wigwam, WigwamBottom wigwamBottom, Pillow pillow, BigDecimal price, String date) {
         this.id = id;
         this.user = user;
         this.status = status;
@@ -41,6 +40,7 @@ public class Order {
         this.wigwamBottom = wigwamBottom;
         this.pillow = pillow;
         this.price = price;
+        this.date = date;
     }
 
     public long getId() {
@@ -97,5 +97,13 @@ public class Order {
 
     public void setPrice(BigDecimal price) {
         this.price = price;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 }

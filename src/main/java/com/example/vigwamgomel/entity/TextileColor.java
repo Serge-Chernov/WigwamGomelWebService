@@ -1,9 +1,9 @@
 package com.example.vigwamgomel.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 @Entity
 public class TextileColor {
@@ -12,6 +12,8 @@ public class TextileColor {
     private long id;
     private String name;
     private byte[] sample;
+
+    private String path;
 
     public long getId() {
         return id;
@@ -35,5 +37,13 @@ public class TextileColor {
 
     public void setSample(byte[] sample) {
         this.sample = sample;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
     }
 }

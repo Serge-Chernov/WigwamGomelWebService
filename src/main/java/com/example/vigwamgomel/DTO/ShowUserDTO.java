@@ -5,7 +5,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
-public class UserDTO {
+public class ShowUserDTO {
     @NotEmpty
     @NotBlank
     private String name;
@@ -16,10 +16,7 @@ public class UserDTO {
     @NotEmpty
     @NotBlank
     private String email;
-    @NotEmpty
-    @NotBlank
-    @NotNull
-    private String password;
+
     @NotEmpty
     @NotBlank
     private String postCode;
@@ -34,17 +31,15 @@ public class UserDTO {
     private String phoneNumber;
 
 
-    public UserDTO() {
+    public ShowUserDTO() {
     }
 
-    public UserDTO(String name, String username,
-                   String email, String password,
-                   String postCode, String city,
+    public ShowUserDTO(String name, String username,
+                   String email, String postCode, String city,
                    String address, String phoneNumber) {
         this.name = name;
         this.username = username;
         this.email = email;
-        this.password = password;
         this.postCode = postCode;
         this.city = city;
         this.address = address;
@@ -73,14 +68,6 @@ public class UserDTO {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public String getPostCode() {

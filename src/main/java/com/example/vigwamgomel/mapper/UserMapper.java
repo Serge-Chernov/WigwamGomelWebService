@@ -8,7 +8,7 @@ import com.example.vigwamgomel.enums.PillowType;
 import org.springframework.stereotype.Component;
 
 public class UserMapper {
-    public static User dtoToUser(UserDTO userDTO){
+    public static User dtoToUser(UserDTO userDTO) {
         User user = new User();
 
         UserAddress address = new UserAddress();
@@ -23,8 +23,8 @@ public class UserMapper {
 
         user.setName(userDTO.getName());
         user.setUsername(userDTO.getUsername());
-        user.setPassword(user.getPassword());
-
+        user.setPassword(userDTO.getPassword());
+        user.setEmail(userDTO.getEmail());
         return user;
     }
 }

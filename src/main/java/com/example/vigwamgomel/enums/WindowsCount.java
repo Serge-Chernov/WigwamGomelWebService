@@ -1,7 +1,7 @@
 package com.example.vigwamgomel.enums;
 
 public enum WindowsCount {
-    NONE("Без окон"),
+    NONE("0"),
     ONE("1"),
     TWO("2"),
     THREE("3");

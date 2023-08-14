@@ -1,18 +1,19 @@
 package com.example.vigwamgomel.entity;
 
-import com.example.vigwamgomel.enums.PillowType;
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Pattern;
-import org.hibernate.annotations.Cascade;
 
+import com.example.vigwamgomel.enums.Roles;
+import org.hibernate.annotations.Fetch;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import javax.persistence.*;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 @Table(name = "users")
-public class User {
+public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -33,13 +34,16 @@ public class User {
     @OneToMany(cascade = CascadeType.ALL)
     private Set<Order> orders = new HashSet<Order>();
 
+    @ElementCollection(fetch = FetchType.EAGER)
+    private Set<Roles> roles;
+
     public User() {
     }
 
     public User(long id, String name,
                 String username, String email,
                 String password, UserAddress address,
-                UserPhone phone, Set<Order> orders) {
+                UserPhone phone) {
         this.id = id;
         this.name = name;
         this.username = username;
@@ -47,7 +51,7 @@ public class User {
         this.password = password;
         this.address = address;
         this.phone = phone;
-        this.orders = orders;
+//        this.orders = orders;
     }
 
     public long getId() {
@@ -106,12 +110,20 @@ public class User {
         this.phone = phone;
     }
 
-    public Set<Order> getOrders() {
-        return orders;
+//    public Set<Order> getOrders() {
+//        return orders;
+//    }
+//
+//    public void setOrders(Set<Order> orders) {
+//        this.orders = orders;
+//    }
+
+    public Set<Roles> getRoles() {
+        return roles;
     }
 
-    public void setOrders(Set<Order> orders) {
-        this.orders = orders;
+    public void setRoles(Set<Roles> roles) {
+        this.roles = roles;
     }
 
     @Override
@@ -124,7 +136,31 @@ public class User {
                 ", password='" + password + '\'' +
                 ", address=" + address +
                 ", phone=" + phone +
-                ", orders=" + orders +
                 '}';
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return this.getRoles();
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 }

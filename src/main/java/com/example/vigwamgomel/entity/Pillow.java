@@ -1,11 +1,7 @@
 package com.example.vigwamgomel.entity;
 
-import com.example.vigwamgomel.enums.PillowType;
-import jakarta.persistence.*;
-
+import javax.persistence.*;
 import java.math.BigDecimal;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 public class Pillow {

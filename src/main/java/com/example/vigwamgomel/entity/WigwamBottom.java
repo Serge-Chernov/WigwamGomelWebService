@@ -1,6 +1,7 @@
 package com.example.vigwamgomel.entity;
 
-import jakarta.persistence.*;
+
+import javax.persistence.*;
 
 @Entity
 public class WigwamBottom {

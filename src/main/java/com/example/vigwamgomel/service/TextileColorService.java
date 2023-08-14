@@ -7,7 +7,9 @@ import com.example.vigwamgomel.repository.TextileColorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
+import javax.xml.bind.DatatypeConverter;
+import java.io.*;
+import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 

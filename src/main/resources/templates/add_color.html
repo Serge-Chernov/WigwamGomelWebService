@@ -3,46 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <title>Добавить цвет</title>
+    <link rel="icon" type="image/jpg" href="/images/icon.jpg"/>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
 </head>
 <body>
-<header th:insert="/homepage.html :: header"></header>
+<header th:insert="/header.html :: header"></header>
 <br>
 <br>
 <br>
-
-<!--<label for="formFileLg" class="form-label">Large file input example</label>-->
-<!--<input class="form-control form-control-lg" id="formFileLg" type="file" accept="image/png, image/jpg" />-->
-<!--<div class="col-auto">-->
-<!--    <input class="form-control col-auto" id="StoreLogo" type="file" th:field="*{sample}">-->
-<!--    <p th:if="${#fields.hasErrors('sample')}" th:errors="*{sample}"></p>-->
-<!--</div>-->
-
+<br>
+<br>
+<div th:insert="/gui.html :: gui"></div>
+<br>
+<br>
+<br>
 <div class="mx-auto" style="width: 2800px;">
     <div class="container">
         <div class="col-4">
-            <form method="post" th:action="@{/admin/add_color}" th:object="${color}">
+            <form action="#" th:action="@{/admin/add_color}" th:object="${color}" method="post"
+                  enctype="multipart/form-data">
+                <!--    <p>name: <input type="text" th:field="*{name}" /></p>-->
+                <!--    <p>document:<input type="file" th:field="*{sample}" multiple="multiple"/>-->
+                <!--        <input type="submit" value="upload" />-->
+                <!--        <input type="reset" value="Reset" /></p>-->
                 <div class="mb-3">
                     <label for="InputColorName" class="form-label">Введите название цвета</label>
                     <input type="text" th:field="*{name}" class="form-control" id="InputColorName"
-                           aria-describedby="nameHelp">
+                           aria-describedby="colorNameHelp">
                     <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></p>
-                    <div id="nameHelp" class="form-text"></div>
+                    <div id="colorNameHelp" class="form-text">Название цвета</div>
                 </div>
                 <div class="mb-3">
-                    <label for="InputColorSample" class="form-label">Откройте образец цвета</label>
-                    <div class="col-auto">
-                        <input type="file" th:field="*{sample}" class="form-control col-auto" id="InputColorSample"/>
-<!--                        <p th:if="${#fields.hasErrors('sample')}" th:errors="*{sample}"></p>-->
-                    </div>
-                    <div id="colorSampleHelp" class="form-text">Изображение формата PNG</div>
+                    <label for="UploadFile" class="form-label">Загрузите изображение</label>
+                    <input type="file" th:field="*{sample}" class="form-control" id="UploadFile"
+                           aria-describedby="uploadFileHelp">
+                    <p th:if="${#fields.hasErrors('sample')}" th:errors="*{sample}"></p>
+                    <div id="uploadFileHelp" class="form-text">Изображение формата PNG</div>
                 </div>
-                <button type="submit" class="btn btn-primary">Добавить</button>
+                <button type="submit" class="btn btn-primary">Загрузить</button>
             </form>
         </div>
     </div>
 </div>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
         crossorigin="anonymous"></script>

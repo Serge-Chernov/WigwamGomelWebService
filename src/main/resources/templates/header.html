@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="icon" type="image/jpg" href="/images/icon.jpg"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+</head>
+<body>
+<div th:fragment="header">
+    <nav class="navbar navbar-dark bg-secondary bg-gradient fixed-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <div class="text-center">
+                    <img th:src="@{/images/icon.jpg}" class="rounded-circle" alt="..."
+                         style="max-width: 70px; max-height: 70px">
+                </div>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas"
+                    data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar"
+                    aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="offcanvas offcanvas-end text-bg-secondary" tabindex="-1" id="offcanvasDarkNavbar"
+                 aria-labelledby="offcanvasDarkNavbarLabel">
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">Навигация</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"
+                            aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body">
+                    <div th:if="${#authorization.expression('hasAuthority(''USER'')')}">
+                        <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" th:href="@{/}">Главная страница</a>
+                                <a class="nav-link active" aria-current="page" th:href="@{/user}">Личный кабинет</a>
+                                <a class="nav-link active" aria-current="page" th:href="@{/order/create}">Сделать заказ</a>
+                                <a class="nav-link active" aria-current="page" th:href="@{/colors}">Каталог тканей</a>
+                                <a class="nav-link active" aria-current="page" th:href="@{/gallery}">Галерея</a>
+                                <br>
+                                <form th:action="@{/logout}" method="post">
+                                    <button class="btn btn-primary">Выйти</button>
+                                </form>
+                            </li>
+                        </ul>
+                    </div>
+                    <div th:unless="${#authorization.expression('hasAnyAuthority(''USER'',''ADMIN'' )')}">
+                        <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" th:href="@{/}">Главная страница</a>
+                                <a class="nav-link active" aria-current="page" th:href="@{/user/login}">Войти</a>
+                                <a class="nav-link active" aria-current="page" th:href="@{/user/reg}">Регистрация</a>
+                                <a class="nav-link active" aria-current="page" th:href="@{/colors}">Каталог тканей</a>
+                                <a class="nav-link active" aria-current="page" th:href="@{/gallery}">Галерея</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div th:if="${#authorization.expression('hasAuthority(''ADMIN'')')}">
+                        <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" th:href="@{/}">Главная страница</a>
+                                <a class="nav-link active" aria-current="page" th:href="@{/admin}">Кабинет администратора</a>
+                                <a class="nav-link active" aria-current="page" th:href="@{/colors}">Каталог тканей</a>
+                                <a class="nav-link active" aria-current="page" th:href="@{/gallery}">Галерея</a>
+                                <br>
+                                <form th:action="@{/logout}" method="post">
+                                    <button class="btn btn-primary">Выйти</button>
+                                </form>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+        crossorigin="anonymous"></script>
+</body>
+</html>
