@@ -5,6 +5,8 @@ import com.example.vigwamgomel.DTO.UserDTO;
 import com.example.vigwamgomel.entity.*;
 import com.example.vigwamgomel.enums.OrderStatus;
 import com.sun.jdi.IntegerValue;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -13,6 +15,12 @@ import java.util.Date;
 public class OrderMapper {
     public static Order orderDTOtoOrder(OrderDTO orderDTO) {
         Order order = new Order();
+
+        Authentication loggedInUser = SecurityContextHolder.getContext().getAuthentication();
+        User user =(User) loggedInUser.getPrincipal();
+
+        order.setUserId(user.getId());
+        order.setUsername(user.getUsername());
 
         Wigwam wigwam = new Wigwam();
         wigwam.setSize(orderDTO.getWigwamSize());
@@ -46,9 +54,7 @@ public class OrderMapper {
         order.setPillow(pillow);
 
         String date = LocalDateTime.now().format(DateTimeFormatter.ofPattern("d.MM.uuuu HH:mm"));
-
         order.setDate(date);
-
         order.setStatus(OrderStatus.PROCESSED.getDisplayValue());
         return order;
     }

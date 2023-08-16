@@ -9,6 +9,6 @@ import java.util.Optional;
 
 public interface OrderRepository extends JpaRepository<Order, Long> {
 
-    @Query(value = "select u from Order u where u.user = :user")
-    Optional<Order> findByUser(User user);
+    @Query(value = "select u from Order u where u.username = :username")
+    Optional<Order> findByUsername(String username);
 }

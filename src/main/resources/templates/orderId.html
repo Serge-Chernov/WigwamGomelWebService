@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <title>Управление сервисом</title>
+    <link rel="icon" type="image/jpg" href="/images/icon.jpg"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+</head>
+<body>
+<header th:insert="/header.html :: header"></header>
+<br>
+<br>
+<br>
+<br>
+<br>
+<div th:insert="/gui.html :: gui"></div>
+
+<div class="list-group">
+    <a th:href="@{/order/findAllOrders}" class="list-group-item list-group-item-action">Все заказы</a>
+    <a href="#" class="list-group-item list-group-item-action">Найти заказ</a>
+</div>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<div class="mx-auto" style="width: 2800px;">
+    <div class="container">
+        <div class="col-9">
+            <div>
+                <ul class="list-group">
+                    <li class="list-group-item" th:text="'ID заказа: ' + ${orderById.getId}">
+                    </li>
+                    <li class="list-group-item" th:text="'Имя пользователя: ' + ${orderById.getUsername}">
+                    </li>
+                    <li class="list-group-item" th:text="'Дата заказа: ' + ${orderById.getDate}">
+                    </li>
+                    <li class="list-group-item" th:text="'Статус заказа: ' + ${orderById.getStatus}">
+                    </li>
+                </ul>
+                <br>
+                <form method="post" th:action="@{/order/orders/edit/}" th:object="${statusDTO}">
+                    <div class="mb-3">
+                        <label for="InputOdrerStatus" class="form-label">Изменить статус заказа</label>
+                        <select th:field="*{status}" class="form-control" id="InputOdrerStatus"
+                                aria-describedby="orderStatusHelp">
+                            <option th:each="status : ${status}" th:text="${status.getDisplayValue}"
+                                    th:value="${status.getDisplayValue}">
+                            </option>
+                        </select>
+<!--                        <div th:unless="${#authorization.expression('hasAnyAuthority(''USER'',''ADMIN'' )')}">-->
+                            <input type="text" id="orderId" name="orderId" class="form-control"
+                                   th:value="${orderIdStringValue}">
+<!--                        </div>-->
+<!--                        <div th:unless="${#authorization.expression('hasAnyAuthority(''USER'',''ADMIN'' )')}">-->
+                            <input type="text" id="userId" name="userId" class="form-control"
+                                   th:value="${orderById.getUserId}">
+<!--                        </div>-->
+                    </div>
+                    <button class="btn btn-primary">Отправить</button>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+        crossorigin="anonymous"></script>
+</body>
+</html>

@@ -3,15 +3,22 @@ package com.example.vigwamgomel.DTO;
 import com.example.vigwamgomel.entity.User;
 import com.example.vigwamgomel.enums.Size;
 
+import javax.validation.constraints.NotNull;
+
 public class OrderDTO {
-    private User user;
-    private String status;
+    @NotNull
     private String wigwamSize;
+    @NotNull
     private String wigwamColor;
+    @NotNull
     private String windowsCount;
+    @NotNull
     private String bottomType;
+    @NotNull
     private String bottomColor;
+    @NotNull
     private String pillowType;
+    @NotNull
     private String pillowColor;
 
     Size[] sizes = Size.values();
@@ -20,8 +27,6 @@ public class OrderDTO {
     }
 
     public OrderDTO(User user, String status, String wigwamSize, String wigwamColor, String windowsCount, String bottomType, String bottomColor, String pillowType, String pillowColor) {
-        this.user = user;
-        this.status = status;
         this.wigwamSize = wigwamSize;
         this.wigwamColor = wigwamColor;
         this.windowsCount = windowsCount;
@@ -29,22 +34,6 @@ public class OrderDTO {
         this.bottomColor = bottomColor;
         this.pillowType = pillowType;
         this.pillowColor = pillowColor;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
     }
 
     public String getWigwamSize() {

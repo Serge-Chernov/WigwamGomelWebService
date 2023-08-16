@@ -11,30 +11,32 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    private User user;
+    //    @ManyToOne(cascade = CascadeType.ALL)
+//    private User user;
+
+    private long userId;
+
+    private String username;
 
     private String status;
     @OneToOne(cascade = CascadeType.ALL)
     private Wigwam wigwam;
     @OneToOne(cascade = CascadeType.ALL)
     private WigwamBottom wigwamBottom;
-//    @ManyToMany(cascade = CascadeType.ALL)
-//    @JoinTable(name = "order_pillow",
-//            joinColumns = @JoinColumn(name = "order_id", referencedColumnName = "id"),
-//            inverseJoinColumns = @JoinColumn(name = "pillow_id", referencedColumnName = "id"))
-//    private Set<Pillow> pillow = new HashSet<Pillow>();
     @OneToOne(cascade = CascadeType.ALL)
     private Pillow pillow;
     private BigDecimal price;
 
     private String date;
+
     public Order() {
     }
 
-    public Order(long id, User user, String status, Wigwam wigwam, WigwamBottom wigwamBottom, Pillow pillow, BigDecimal price, String date) {
+    public Order(long id, long userId, String username, String status, Wigwam wigwam, WigwamBottom wigwamBottom, Pillow pillow, BigDecimal price, String date) {
         this.id = id;
-        this.user = user;
+//        this.user = user;
+        this.userId = userId;
+        this.username = username;
         this.status = status;
         this.wigwam = wigwam;
         this.wigwamBottom = wigwamBottom;
@@ -43,7 +45,7 @@ public class Order {
         this.date = date;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
@@ -51,12 +53,20 @@ public class Order {
         this.id = id;
     }
 
-    public User getUser() {
-        return user;
+    public long getUserId() {
+        return userId;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserId(long userId) {
+        this.userId = userId;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getStatus() {
@@ -105,5 +115,14 @@ public class Order {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    @Override
+    public String toString() {
+        return "ID заказа: " + id +
+                "; ID пользователя: " + userId +
+                "; Статус: " + status +
+                "; Цена: " + price +
+                "; Дата: " + date;
     }
 }

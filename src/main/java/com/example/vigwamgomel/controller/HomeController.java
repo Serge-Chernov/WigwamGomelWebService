@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
@@ -18,16 +17,17 @@ import java.util.List;
 public class HomeController {
     @Autowired
     TextileColorService colorService;
+
     @GetMapping("/")
     public String homepage(){
         return "homepage";
     }
+
     @GetMapping("/colors")
     public String colorGallery(Model model){
-        List<TextileColor> colors = colorService.findAll();
-        List<ShowColorDTO> showColorDTOS = TextileColorEntityListToDTOList.entityToDTO(colors);
-        model.addAttribute("colors", showColorDTOS);
-
+        List<TextileColor> entityColors = colorService.findAll();
+        List<ShowColorDTO> colors = TextileColorEntityListToDTOList.entityToDTO(entityColors);
+        model.addAttribute("colors", colors);
         return "color_gallery";
     }
 

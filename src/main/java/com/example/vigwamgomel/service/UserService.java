@@ -1,5 +1,6 @@
 package com.example.vigwamgomel.service;
 
+import com.example.vigwamgomel.DTO.UpdateUserDTO;
 import com.example.vigwamgomel.DTO.UserDTO;
 import com.example.vigwamgomel.entity.User;
 import com.example.vigwamgomel.enums.Roles;
@@ -13,12 +14,13 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-@Component
+@Service
 public class UserService implements UserDetailsService {
     @Autowired
     UserRepository userRepository;
@@ -29,7 +31,7 @@ public class UserService implements UserDetailsService {
     }
 
     public void save(UserDTO userDTO) {
-        User user = UserMapper.dtoToUser(userDTO);
+        User user = UserMapper.DTOToUser(userDTO);
         user.setPassword(passwordEncoder().encode(userDTO.getPassword()));
         user.setRoles(Set.of(Roles.USER));
         userRepository.save(user);
@@ -48,14 +50,17 @@ public class UserService implements UserDetailsService {
         throw new UsernameNotFoundException("");
     }
 
-    public void updateUser(UserDTO userDTO){
+    public User getLoggedInUser(){
         Authentication loggedInUser = SecurityContextHolder.getContext().getAuthentication();
-        User details =(User) loggedInUser.getPrincipal();
-
-        long id = details.getId();
-        User userToUpdate = userRepository.getReferenceById(id);
-        userToUpdate.setName(userDTO.getName());
-        userRepository.save(userToUpdate);
+        User user =(User) loggedInUser.getPrincipal();
+        return user;
     }
 
+    public void updateUser(UpdateUserDTO updateUserDTO){
+        User details = getLoggedInUser();
+        long id = details.getId();
+        User userToUpdate = userRepository.getReferenceById(id);
+        User userToSave = UserMapper.updateUserDTOtoUser(updateUserDTO, userToUpdate);
+        userRepository.save(userToSave);
+    }
 }

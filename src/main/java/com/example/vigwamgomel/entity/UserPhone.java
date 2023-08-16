@@ -16,7 +16,7 @@ public class UserPhone {
     public UserPhone() {
     }
 
-    public UserPhone(String phoneNumber) {
+    public UserPhone(Long id, String phoneNumber) {
         this.id = id;
         this.phoneNumber = phoneNumber;
     }

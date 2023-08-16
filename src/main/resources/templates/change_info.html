@@ -21,7 +21,7 @@
         <h2>Заполните поля которые хотите изменить</h2>
         <br>
         <div class="col-4">
-            <form method="post" th:action="@{/user/change_info}" th:object="${changeUser}">
+            <form method="post" th:action="@{/user/change_info}" th:object="${updateUser}">
                 <div class="mb-3">
                     <label for="InputName" class="form-label">Имя</label>
                     <input type="text" th:field="*{name}" class="form-control" id="InputName"
@@ -38,14 +38,6 @@
                          th:text="'Ваше имя пользователя ' + ${#authentication.principal.username}"></div>
                 </div>
                 <div class="mb-3">
-                    <label for="InputPassword" class="form-label">Пароль</label>
-                    <input type="password" name="password" class="form-control" id="InputPassword"
-                           aria-describedby="passwordHelp">
-                    <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
-                    <div id="passwordHelp" class="form-text">Придумайте пароль содержащий буквы, цифры и символы
-                    </div>
-                </div>
-                <div class="mb-3">
                     <label for="InputEmail" class="form-label">Электонная почта</label>
                     <input type="text" th:field="*{email}" class="form-control" id="InputEmail"
                            aria-describedby="EmailHelp" th:value="${#authentication.principal.email}">
@@ -57,16 +49,25 @@
                 <div class="mb-3">
                     <label for="InputPhoneNumber" class="form-label">Номер телефона</label>
                     <input type="text" th:field="*{phoneNumber}" class="form-control" id="InputPhoneNumber"
-                           aria-describedby="phoneNumberHelp" th:value="${#authentication.principal.phone.phoneNumber}">
+                           aria-describedby="PhoneNumberHelp" th:value="${#authentication.principal.username}">
                     <p th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}"></p>
-                    <div id="phoneNumberHelp" class="form-text"
+                    <div id="PhoneNumberHelp" class="form-text"
                          th:text="'Ваш номер телефона ' + ${#authentication.principal.phone.phoneNumber}">
                     </div>
                 </div>
+<!--                <div class="mb-3">-->
+<!--                    <label for="InputPhoneNumber" class="form-label">Номер телефона</label>-->
+<!--                    <input type="text" th:field="*{phoneNumber}" class="form-control" id="InputPhoneNumber"-->
+<!--                           aria-describedby="phoneNumberHelp" th:value="${#authentication.principal.phone.phoneNumber}">-->
+<!--                    <p th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}"></p>-->
+<!--                    <div id="phoneNumberHelp" class="form-text"-->
+<!--                         th:text="'Ваш номер телефона ' + ${#authentication.principal.phone.phoneNumber}">-->
+<!--                    </div>-->
+<!--                </div>-->
                 <div class="mb-3">
                     <label for="InputPostCode" class="form-label">Введите почтовый индекс</label>
                     <input type="text" th:field="*{postCode}" class="form-control" id="InputPostCode"
-                           aria-describedby="postCodeHelp" th:value="${#authentication.principal.address.postCode}">
+                           aria-describedby="postCodeHelp" th:value="${#authentication.principal.address.PostCode}">
                     <p th:if="${#fields.hasErrors('postCode')}" th:errors="*{postCode}"></p>
                     <div id="postCodeHelp" class="form-text"
                          th:text="'Ваш почтовый индекс ' + ${#authentication.principal.address.postCode}"></div>

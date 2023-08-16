@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Управление сервисом</title>
+    <title>Главная страница</title>
     <link rel="icon" type="image/jpg" href="/images/icon.jpg"/>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
@@ -15,11 +15,6 @@
 <br>
 <br>
 <div th:insert="/gui.html :: gui"></div>
-
-<div class="list-group">
-    <a th:href="@{/order/findAllOrders}" class="list-group-item list-group-item-action">Все заказы</a>
-    <a href="#" class="list-group-item list-group-item-action">Найти заказ</a>
-</div>
 <br>
 <br>
 <br>
@@ -31,10 +26,7 @@
         <div class="col-9">
             <div>
                 <ul class="list-group">
-                    <li class="list-group-item" >
-                        <a class="nav-link active" th:each="order : ${orders}" th:text="${order}"
-                           th:href="@{/order/orders/edit/{id}(id = ${order.id})}"></a>
-                    </li>
+                    <li class="list-group-item" th:each="message : ${messages}" th:text="${message}"></li>
                 </ul>
             </div>
         </div>

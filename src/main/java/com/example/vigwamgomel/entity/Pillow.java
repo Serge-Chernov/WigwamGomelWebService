@@ -13,13 +13,6 @@ public class Pillow {
     @OneToOne(cascade = CascadeType.ALL)
     private TextileColor color;
 
-
-//    @ManyToMany(cascade = CascadeType.ALL)
-//    @JoinTable(name = "order_pillow",
-//            joinColumns = @JoinColumn(name = "pillow_id", referencedColumnName = "id"),
-//            inverseJoinColumns = @JoinColumn(name = "order_id", referencedColumnName = "id"))
-//    private Set<Order> orders = new HashSet<Order>();
-
     private BigDecimal price;
 
     public long getId() {

@@ -1,18 +1,29 @@
 package com.example.vigwamgomel.controller;
 
 import com.example.vigwamgomel.DTO.OrderDTO;
+import com.example.vigwamgomel.DTO.OrderStatusDTO;
 import com.example.vigwamgomel.DTO.ShowColorDTO;
 import com.example.vigwamgomel.entity.Order;
 import com.example.vigwamgomel.entity.TextileColor;
+import com.example.vigwamgomel.entity.User;
 import com.example.vigwamgomel.enums.*;
 import com.example.vigwamgomel.mapper.TextileColorEntityListToDTOList;
+import com.example.vigwamgomel.service.MessageService;
 import com.example.vigwamgomel.service.OrderService;
 import com.example.vigwamgomel.service.TextileColorService;
+import com.example.vigwamgomel.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import java.awt.print.Pageable;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,9 +33,13 @@ public class OrderController {
 
     @Autowired
     TextileColorService colorService;
-
     @Autowired
     OrderService orderService;
+    @Autowired
+    MessageService messageService;
+
+    @Autowired
+    UserService userService;
 
     @GetMapping("/create")
     public String createOrder(Model model) {
@@ -33,8 +48,7 @@ public class OrderController {
         Size[] sizes = Size.values();
         model.addAttribute("sizes", sizes);
 
-        List<TextileColor> colors = colorService.findAll();
-        List<ShowColorDTO> showColorDTOS = TextileColorEntityListToDTOList.entityToDTO(colors);
+        List<TextileColor> showColorDTOS = colorService.findAll();
         model.addAttribute("colors", showColorDTOS);
 
         WindowsCount[] windows = WindowsCount.values();
@@ -50,56 +64,101 @@ public class OrderController {
     }
 
     @PostMapping("/create")
-    public String registration(@ModelAttribute("createOrder") OrderDTO orderDTO) {
-        orderService.save(orderDTO);
-        return "redirect:/";
-//        }
+    public String createOrder(@ModelAttribute("newOrder") @Valid OrderDTO orderDTO, BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            Size[] sizes = Size.values();
+            model.addAttribute("sizes", sizes);
+
+            List<TextileColor> showColorDTOS = colorService.findAll();
+            model.addAttribute("colors", showColorDTOS);
+
+            WindowsCount[] windows = WindowsCount.values();
+            model.addAttribute("windows", windows);
+
+            WigwamBottomType[] bottoms = WigwamBottomType.values();
+            model.addAttribute("bottoms", bottoms);
+
+            PillowType[] pillows = PillowType.values();
+            model.addAttribute("pillows", pillows);
+            return "create_order";
+        } else {
+            Authentication loggedInUser = SecurityContextHolder.getContext().getAuthentication();
+            User details = (User) loggedInUser.getPrincipal();
+            long userId = details.getId();
+
+            orderService.save(orderDTO);
+            messageService.sendDefaultMessage(userId);
+            return "redirect:/";
+        }
     }
+
     @GetMapping("/orders")
-    public String orders(){
+    public String orders() {
         return "orders";
     }
 
     @GetMapping("/findAllOrders")
-    public String findAll(Model model){
-        List<Order> allOrders = orderService.findAll();
-        if (!allOrders.isEmpty()) {
-            model.addAttribute("allOrders", allOrders);
+    public String findAll(Model model) {
+        List<Order> orders = orderService.findAll();
+        if (!orders.isEmpty()) {
+            model.addAttribute("orders", orders);
             return "all_orders";
-        }else {
-            model.addAttribute("allOrders", "В базе данных нет закахов");
+        } else {
+            model.addAttribute("orders", "В базе данных нет заказов");
         }
         return "all_orders";
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/orders/edit/{id}")
     public String findById(@PathVariable Long id, Model model) {
-        Optional<Order> orderById = orderService.findById(id);
-        if(orderById.isPresent()) {
+        Optional<Order> order = orderService.findById(id);
+        if (order.isPresent()) {
+            Order orderById = order.get();
             model.addAttribute("orderById", orderById);
-        }else {
+
+            String orderIdStringValue = String.valueOf(orderById.getId());
+            model.addAttribute("orderIdStringValue", orderIdStringValue);
+
+            String userIdStringValue = String.valueOf(orderById.getUserId());
+            model.addAttribute("userIdStringValue", userIdStringValue);
+
+            OrderStatusDTO statusDTO = new OrderStatusDTO();
+            model.addAttribute("statusDTO", statusDTO);
+
+            OrderStatus[] status = OrderStatus.values();
+            model.addAttribute("status", status);
+        } else {
             model.addAttribute("orderById", "Заказ не найден");
         }
-        return "orderList";
+        return "orderId";
     }
-    @GetMapping("/{id}/edit")
-    public String editOrder(@PathVariable Long id, @ModelAttribute("orderById") Optional<Order> orderById, Model model){
+
+    @PostMapping("/orders/edit")
+    public String editOrder(@ModelAttribute("statusDTO")
+    OrderStatusDTO orderStatusDTO,@ModelAttribute ("orderById") Order orderById, BindingResult bindingResult, Model model) {
+
+        orderService.updateOrder(orderStatusDTO);
+
+        switch (orderStatusDTO.getStatus()) {
+            case "Отменен" -> messageService.sendOrderCanceledMessage(orderById.getUserId());
+            case "Изготавливается" -> messageService.sendOrderInProgressMessage(orderById.getUserId());
+            case "Готов к выдаче" -> messageService.sendOrderCompleteMessage(orderById.getUserId());
+        }
 
         OrderStatus[] status = OrderStatus.values();
         model.addAttribute("status", status);
-        return "edit_order";
-    }
 
-    @PostMapping("/orders/edit/{id}")
-    public String editOrder(@PathVariable Long id, @ModelAttribute("orderById") Optional<Order> orderById, Model model, String orderStatus){
-
-        if(orderById.isPresent()) {
-            Order order = orderById.get();
-            orderService.updateOrder(order, orderStatus);
-            return "edit_order";
-        }else {
-            model.addAttribute("orderError", "Ошибка");
+        List<Order> orders = orderService.findAll();
+        if (!orders.isEmpty()) {
+            model.addAttribute("orders", orders);
+            return "all_orders";
+        } else {
+            model.addAttribute("orders", "В базе данных нет заказов");
         }
-        return "edit_order";
+
+
+
+        return "all_orders";
     }
+
 }

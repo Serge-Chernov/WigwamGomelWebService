@@ -1,7 +1,10 @@
 package com.example.vigwamgomel.controller;
 
 import com.example.vigwamgomel.DTO.LoginUserDTO;
+import com.example.vigwamgomel.DTO.UpdateUserDTO;
 import com.example.vigwamgomel.DTO.UserDTO;
+import com.example.vigwamgomel.entity.User;
+import com.example.vigwamgomel.mapper.UserMapper;
 import com.example.vigwamgomel.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,7 +14,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
 import javax.validation.Valid;
 
 
@@ -63,16 +65,18 @@ public class UserController {
 
     @GetMapping("/change_info")
     public String changeUserInfo(Model model){
-        model.addAttribute("changeUser", new UserDTO());
+        User user = userService.getLoggedInUser();
+        UpdateUserDTO updateUserDTO = UserMapper.UserToUpdateUserDTO(user);
+        model.addAttribute("updateUser", updateUserDTO);
         return "change_info";
     }
 
     @PostMapping("/change_info")
-    public String changeUserInfo(@ModelAttribute("changeUser") @Valid UserDTO userDTO, BindingResult bindingResult){
+    public String changeUserInfo(@ModelAttribute("updateUser") @Valid UpdateUserDTO updateUserDTO, BindingResult bindingResult){
         if (bindingResult.hasErrors()) {
             return "change_info";
         } else {
-            userService.updateUser(userDTO);
+            userService.updateUser(updateUserDTO);
             return "redirect:/";
         }
     }

@@ -6,5 +6,5 @@ public class OrderStatusService {
 
     public void changeStatus(Order order, String status){
         order.setStatus(status);
-    };
+    }
 }

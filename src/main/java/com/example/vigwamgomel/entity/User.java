@@ -31,9 +31,6 @@ public class User implements UserDetails {
     @OneToOne(cascade = CascadeType.ALL)
     private UserPhone phone;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    private Set<Order> orders = new HashSet<Order>();
-
     @ElementCollection(fetch = FetchType.EAGER)
     private Set<Roles> roles;
 
@@ -51,7 +48,6 @@ public class User implements UserDetails {
         this.password = password;
         this.address = address;
         this.phone = phone;
-//        this.orders = orders;
     }
 
     public long getId() {
@@ -109,14 +105,6 @@ public class User implements UserDetails {
     public void setPhone(UserPhone phone) {
         this.phone = phone;
     }
-
-//    public Set<Order> getOrders() {
-//        return orders;
-//    }
-//
-//    public void setOrders(Set<Order> orders) {
-//        this.orders = orders;
-//    }
 
     public Set<Roles> getRoles() {
         return roles;
